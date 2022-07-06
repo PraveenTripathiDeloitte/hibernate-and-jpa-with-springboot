@@ -1,5 +1,6 @@
 package com.practice.springjpaadvanced;
 
+import com.practice.springjpaadvanced.entity.Course;
 import com.practice.springjpaadvanced.repository.CourseRepository;
 import com.practice.springjpaadvanced.repository.StudentRepository;
 import org.slf4j.Logger;
@@ -28,5 +29,7 @@ public class SpringJpaAdvancedApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         studentRepository.saveStudentWithPassport();
         logger.info("Student saved!!!");
+        courseRepository.save(new Course("Wizardy"));
+        logger.info("Course saved");
     }
 }

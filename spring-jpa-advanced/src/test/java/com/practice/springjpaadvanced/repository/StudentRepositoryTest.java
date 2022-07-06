@@ -1,5 +1,6 @@
 package com.practice.springjpaadvanced.repository;
 
+import com.practice.springjpaadvanced.entity.Passport;
 import com.practice.springjpaadvanced.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -23,11 +24,9 @@ class StudentRepositoryTest {
 
     @Test
     @Transactional
-    /**
-     *     since fetch type is lazy,
-     *     so we need this annotation so that before ending the session
-     *     it performs the query to get passport details as well
-     */
+    // since fetch type is lazy,
+    // so we need this annotation so that before ending the session
+    // it performs the query to get passport details as well
     public void testRetrieveStudentAndPassportDetails() {
         Student student = em.find(Student.class, 2L);
         logger.info("student -> {}", student);
@@ -35,10 +34,11 @@ class StudentRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void testRetrievePassportAndAssociatedStudent() {
-        Student student = em.find(Student.class, 2L);
-        logger.info("student -> {}", student);
-        logger.info("passport -> {}", student.getPassport());
+        Passport passport = em.find(Passport.class, 1L);
+        logger.info("passport -> {}", passport);
+        logger.info("student -> {}", passport.getStudent());
     }
 
 
