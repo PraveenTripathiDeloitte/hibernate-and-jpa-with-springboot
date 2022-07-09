@@ -1,9 +1,6 @@
 package com.practice.springjpaadvanced.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +18,14 @@ public class Course {
      */
     @OneToMany(mappedBy = "course")
     private List<Review> reviews = new ArrayList<>();
+
+    /* one course can be taken by many students
+       we have added mappedBy here because we wanted
+       to make student as owner of the relationship
+       so this will not generate table courses_student
+     */
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students = new ArrayList<>();
 
     protected Course() {
     }
@@ -55,5 +60,21 @@ public class Course {
 
     public void removeReview(Review review) {
         this.reviews.remove(review);
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    /* we don't want someone to add list of students to course that's why
+    we haven't created setter for adding list of students we just created
+    one method to add a single student to the course
+     */
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
+
+    public void removeStudent(Student student) {
+        this.students.remove(student);
     }
 }

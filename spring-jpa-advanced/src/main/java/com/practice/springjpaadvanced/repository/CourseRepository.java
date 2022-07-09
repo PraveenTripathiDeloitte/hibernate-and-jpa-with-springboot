@@ -1,6 +1,7 @@
 package com.practice.springjpaadvanced.repository;
 
 import com.practice.springjpaadvanced.entity.Course;
+import com.practice.springjpaadvanced.entity.Review;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -47,4 +49,38 @@ public class CourseRepository {
         course2.setName("JPA in 50 Steps - Updated");
 
     }
+
+    public void addReviewForCourse() {
+        // get the course
+        Course course = findById(3L);
+        logger.info("Course reviews -> {}", course.getReviews());
+
+        //Add 2 reviews
+        Review review1 = new Review("5", "Great hands-on stuff!");
+        Review review2 = new Review("4", "Awesome");
+
+        review1.setCourse(course);
+        review2.setCourse(course);
+
+        course.addReview(review1);
+        course.addReview(review2);
+
+        //save it to database
+        em.persist(review1);
+        em.persist(review2);
+    }
+
+    public void addReviewForCourse(Long courseId, List<Review> reviews) {
+        // get the course
+        Course course = findById(courseId);
+        logger.info("Course reviews -> {}", course.getReviews());
+
+        for (Review review : reviews) {
+            //setting the relationship
+            review.setCourse(course);
+            course.addReview(review);
+            em.persist(review);
+        }
+    }
+
 }
